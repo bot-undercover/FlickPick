@@ -1,0 +1,20 @@
+p {
+    font-size: 20px;
+}
+div.code {
+    background-color: white;
+    padding: 15px 32px;
+    border-radius: 4px;
+}
+div.if {
+    background-color: lightgray;
+    padding: 1px 10px;
+}
+.warning {
+    background-color: yellow;
+    padding: 1px 10px;
+}
+body {
+    background-color: lightgray;
+    margin: auto;
+}

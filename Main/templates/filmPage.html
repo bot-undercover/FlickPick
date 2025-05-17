@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Menu{% endblock %}
+{% block content %}
+<div style="background-color: white;">
+    <div class="containerV">
+        <form action="/api" method="post"><input type="hidden" name="filmMenu" value="find">
+            <button class="right" type="submit">Поиск</button>
+            <input class="right"type="text" name="searcher"/>
+        </form>
+        {% for film in films %}
+        <div style="background-color: black; padding: 1px 1px;">
+            <div class="containerH" style="background-color: white;">
+                <div class="image-contour item"><div class="image-container"><img src="{{ url_for('static', filename='/usersPictures/question.jpg') }}" style="width:110px;height:110px;"></div></div>
+                <div class="item-width"><H3>{{ film.name }}</H3><h4>{{ film.description }}</h4></div>
+                <div class="item"><h5 class="right">Released:<br>{{ film.date }}</h5></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

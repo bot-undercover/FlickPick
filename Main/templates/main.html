@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Menu{% endblock %}
+{% block content %}
+<div style="background-color: white;">
+    <div class="centered" style="flex-direction: column;"><h1>FlickPick - фильм на вечер</h1>
+    <div style="padding: 1px 10px"><h2>В наших каталогах вы сможете найти разнообразное множество представителей киноленты!</h2></div><h2>
+    <details style="background-color: lightGrey">
+    <summary>Почему именно мы?</summary>
+    <h5>
+    <ul>
+    <li>Отзывы на фильмы - Делитесь вашим мнением с другими!</li>
+    <li>Наша собственная система по рекомендации фильмов, основанная на ИИ.</li>
+    </ul>
+    </h5>
+    </details>
+    </h2>
+    <h3>Заинтересовало? <a href="/register">Зарегистрироваться</a></h3>
+    <h4>Уже есть аккаунт? <a href="/login">Войти</a></h4>
+    </div>
+</div>
+{% endblock %}

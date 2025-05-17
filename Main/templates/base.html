@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>FlickPick~{% block title %}{% endblock %}</title>
+</head>
+<script src="{{ url_for('static', filename='/js/main.js') }}"></script>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a href="/">FlickPick</a></li>
+            {{ pages|safe }}
+            <li class="right"><a href="/account"><img src="{{ url_for('static', filename='/usersPictures/' + picture + '') }}" style="width:14px;height:14px;"> {{ user }}</a></li>
+        </ul>
+    </nav>
+</header>
+<div id="mainBlock"> {% block content %}{% endblock %}</div>
+<footer></footer>
+</body>
+</html>

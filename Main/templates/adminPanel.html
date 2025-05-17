@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div style="background-color: white;" class="containerV">
+    <div><H1>Меню фильмов: </H1>
+        <form action="/api" method="post">Добавить фильм: <input type="hidden" name="filmMenu" value="add"><input type="text" name="name"  placeholder="Название фильма" ><button type="submit">Поиск</button></h1></form>
+    </div>
+    <form class="styles_form__i86wS" action="https://www.kinopoisk.ru/index.php" method="post"><div class="styles_rootActive__JqA4B styles_root__dTeXi styles_searchInputElement__qNbS4" data-tid="b0e8f9b"><input name="kp_query" type="text" class="styles_inputActive__ICcod styles_input__4vNAb kinopoisk-header-search-form-input__input" autocomplete="off" role="combobox" aria-label="Фильмы, сериалы, персоны" aria-expanded="true" aria-controls="suggest-container" placeholder="Фильмы, сериалы, персоны" required="" value=""><div class="styles_controlContainer__5VetH kinopoisk-header-search-form-input__control-container"><button type="submit" class="styles_root__CUh_v styles_submit__2AIpj" aria-label="Найти" tabindex="-1" data-tid="f49ca51f">Найти</button></div></div></form>
+    <!-- <div><H1>Меню пользователей: </H1>
+        <form action="/api" method="post">Добавить фильм:<br><input type="hidden" name="filmMenu" value="add"><button type="submit">Поиск</button></h1></form>
+    </div> -->
+</div>
+{% endblock %}
