@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #cccccc;
+}
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1em 0;
+    text-align: center;
+}
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1em 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+src {
+    padding: 1px 10px;
+    border: 1px solid grey;
+}
+
+.right {
+    float: right;
+}
+.item-width {
+    flex-grow: 1;
+}
+.item {
+    flex-grow: 0;
+}
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    background-color: #444;
+    overflow: hidden;
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 6px 15px;
+    text-decoration: none;
+    border: 1px solid grey;
+}
+
+nav ul li a:hover {
+    background-color: grey;
+}
+#mainBlock {
+    background-color: grey;
+    margin: 20px 8% 50%;
+    padding: 1%;
+}
+.form {
+    background-color: #fff;
+    margin: 20px;
+    padding: 16px 24px;
+
+}
+.centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.littleText {
+color: grey;
+font-size: 80%;
+}
+.containerH {
+  display: flex;
+  gap: 16px;
+}
+.containerV {
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+}
+.account {
+background-color: white;
+}

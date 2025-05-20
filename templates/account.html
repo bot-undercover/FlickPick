@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ showedUser }}{% endblock %}
+{% block content %}
+<div class="account containerH">
+    <div class="item">
+        <img src="{{ url_for('static', filename='/usersPictures/' + showedPicture + '') }}" style="width:250px;height:250px; border: 1px solid grey;">
+        <form class="right" action="/api" method="post"><input type="hidden" name="account" value="changeImage"><button type="submit">⚙️</button></form>
+    </div>
+    <div class="item-width"><form action="/api" method="post">
+        <h1>{{ isAdmin }} {{ showedUser }} <input type="hidden" name="account" value="changeName"><button type="submit">⚙️</button></h1></form></h1><form action="/api" method="post"><h3>Описание: <input type="hidden" name="account" value="changeAbout"><button type="submit">⚙️</button></h3></form><h4>{{ about }}</h4>
+        <div class="containerH">
+            <form action="/api" method="post"><input type="hidden" name="account" value="deleteAccount"><button type="submit">Удалить аккаунт</button></form>
+            <form action="/api" method="post"><input type="hidden" name="account" value="exitAccount"><button type="submit">Выйти из аккаунта</button></form>
+        </div>
+    </div>
+    <div>
+        <form action="/api" method="post"><h4>Дата регистрации: <input type="hidden" name="account" value="{{ ban }} {{ showedId }}"><button type="submit">{{ banSymbol }}</button><br>{{ creationDate }}</h4></form>
+        <h3 class="right"><form action="/api" method="post"><input type="hidden" name="account" value="rateup {{ showedId }}"><button type="submit">↑</button></form>{{ rating }}⭐<form action="/api" method="post"><input type="hidden" name="account" value="ratedown {{ showedId }}"><button type="submit">↓</button></form></h3>
+    </div>
+</div>
+{% endblock %}

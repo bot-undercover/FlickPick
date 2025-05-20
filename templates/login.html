@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="form centered">
+<form action="/api" method="post" enctype="multipart/form-data">
+<input type="hidden" name="from" value="login"><div class="containerV centered">
+<label class="centered"><h1>Вход</h1></label>
+<input type="text" name="login" placeholder="Логин">
+<input type="password" name="password" placeholder="Пароль">
+<div class="centered"><button type="submit">Войти</button></div></div><br>
+<div class="littleText centered">Нет аккаунта?<a href="/register">Зарегистрироваться</a></div>
+</form></div>
+{% endblock %}
