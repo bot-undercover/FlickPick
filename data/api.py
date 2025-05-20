@@ -1,6 +1,7 @@
-from flask import Flask, request, render_template, redirect, make_response, abort
+from flask import Flask, request, render_template, redirect, make_response, abort, send_file
 from cryptography.fernet import Fernet
-import hashlib, os
+import hashlib, os, string, datetime
+from random import choices
 
 from .users import User
 from .films import Film
@@ -37,7 +38,7 @@ def Api():
                     out = redirect("/login?alert=Нет такого пользователя!")
             elif request.form["from"] == "register":
                 if not db_sess.query(User).filter(
-                    User.name == request.form["login"]).first() == None: return redirect(
+                        User.name == request.form["login"]).first() == None: return redirect(
                     f"/register?alert=Пользователь с таким логином уже существует!")
                 newUser = User()
                 newUser.name = request.form["login"]
@@ -48,8 +49,8 @@ def Api():
                 db_sess.add(newUser)
                 out = make_response(redirect("/account"))
                 out.set_cookie("user", str(cookieKey))
-        elif "filmMenu" in request.form.keys():
-            move = request.form["filmMenu"]
+        elif "film" in request.form.keys():
+            move = request.form["film"]
             if move == "add":
                 pass
             elif move == "del":
@@ -80,10 +81,8 @@ def Api():
                     user.banned = True
                     user.name = "Забаненый"
                     user.picture = "guest.png"
+
                 out = redirect(f"/account/{move[1]}")
-            elif move[0] == "changeImage":
-                pass
-                #getLocalUser()
             elif move[0] == "unbanAccount":
                 if getLocalUserData().isAdmin:
                     user = db_sess.query(User).filter(User.id == int(move[1])).first()
@@ -109,6 +108,29 @@ def Api():
                 user.cookie = ""
                 out = make_response(redirect("/login"))
                 out.set_cookie("user", "", expires=0)
+        elif "ftp" in request.form.keys():
+            if getLocalUserData().banned:
+                return redirect(f"/account/{getLocalUserData().id}")
+            move, = request.form["ftp"],
+            if move == "download" and request.form["id"] != None:
+                if request.form["id"] != -1:
+                    return send_file(f".\\static\\usersPictures\\{getUserById(request.form["id"]).picture}",
+                                     as_attachment=True,
+                                     download_name=str(request.form["id"]) + "." +
+                                                   getUserById(request.form["id"]).picture.split(".")[-1])
+            elif move == "upload":
+                return renderTemplate("uploading.html")
+            elif move == "getFile":
+                if getLocalUserData().id != -1:
+                    file = request.files['file']
+                    newName = generate(64) + "." + file.filename.split(".")[-1]
+                    with open(".\\static\\usersPictures\\" + newName, "wb") as f:
+                        f.write(file.read())
+                    user = db_sess.query(User).filter(User.id == getLocalUserData().id).first()
+                    if user.picture != "guest.png":
+                        os.remove(os.getcwd() + "\\static\\usersPictures\\" + user.picture)
+                    user.picture = newName
+            out = redirect(f"/account/{getLocalUserData().id}")
 
     else:
         data = request.args.get('move')
@@ -150,11 +172,14 @@ def getUserById(id):
         return user
     else:
         return guestUser()
+
+
 def getFilmById(id):
     db_sess = db_session.create_session()
     film = db_sess.query(Film).filter(Film.id == id).first()
     db_sess.close()
     return film
+
 
 def getFilms(**args):
     db_sess = db_session.create_session()
@@ -171,9 +196,17 @@ def accountRender(id):
     if not user: return renderTemplate("account.html", showedUser="--None--", showedPicture="guest.png")
     return renderTemplate("account.html", showedUser=user.name, showedPicture=user.picture,
                           isAdmin="🔐" if user.isAdmin else "", showedId=user.id, about=user.about,
-                          creationDate=user.creationDate, ban="unbanAccount" if user.banned else "banAccount",
+                          creationDate=user.creationDate.strftime('%H:%M %d/%m/%Y'),
+                          ban="unbanAccount" if user.banned else "banAccount",
                           banSymbol="🔓" if user.banned else "🔒",
                           rating=str(round(user.ratingSum / user.ratingCount, 2)).ljust(4, "0"), **data)
+
+
+def filmRender(id, **data):
+    film = getFilmById(id)
+    return renderTemplate("filmPage.html", title=film.title, showedPicture=film.picture, id=film.id,
+                          description=film.description, publishedDate=film.date,
+                          rating=str(round(film.sumRating / film.countRating, 2)).ljust(4, "0"), **data)
 
 
 def renderTemplate(template_name_or_list, **args):
@@ -184,5 +217,10 @@ def renderTemplate(template_name_or_list, **args):
         data = f"""<li><a href="/films">Каталог фильмов</a></li>{'''<li><a href="/admin">Админ панель</a></li>''' if user.isAdmin else ""}"""
     return render_template(template_name_or_list, **args, user=user.name, picture=user.picture, pages=data)
 
+
 def specialDial():
     user = getLocalUserData()
+
+
+def generate(length):
+    return "".join(choices(string.ascii_letters + string.digits, k=length))

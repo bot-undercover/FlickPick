@@ -39,9 +39,8 @@ def account(id=-1):
 def films(id=-1):
     if getLocalUserData().id == -1: return redirect("/login")
     if id != -1:
-        return renderTemplate("filmPage.html", id=id)
-
-    return renderTemplate("films.html", films=getFilms().order_by(Film.sumRating / Film.countRating).all()[:100])
+        return filmRender(id)
+    return renderTemplate("films.html", films=getFilms().order_by((-Film.sumRating / Film.countRating)).all()[:10])
 
 
 @app.route('/special-dial')

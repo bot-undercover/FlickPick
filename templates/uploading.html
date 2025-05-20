@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}UploadFiles{% endblock %}
+{% block content %}
+<div class="centered containerV">
+    <form style="background-color: white;padding: 1em 0; border: 3px solid black;" action="/api" enctype="multipart/form-data" method="POST" >
+            <input type="hidden" name="ftp" value="getFile">
+            <input type="file" name="file" accept="image/*"><br><br>
+            <div class="centered"><button>Загрузить</button></div>
+        </form>
+</div>
+{% endblock %}
